@@ -1,0 +1,439 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="queries" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="state_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.state WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="state_update">
+					<value> 
+				<![CDATA[ UPDATE public.state SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="state_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.state WHERE active = 1 ]]>
+					</value>
+				</entry>
+
+
+				<entry key="district_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.district WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="district_find_by_state">
+					<value> 
+					<![CDATA[ SELECT * FROM public.district WHERE state IN (:state) ]]>
+					</value>
+				</entry>
+
+				<entry key="district_update">
+					<value> 
+				<![CDATA[ UPDATE public.district SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="district_details_by_id">
+					<value> 
+					<![CDATA[select d.id as district_id,m.id as mandal_id,m.name as mandal_name,v.pincode as village_pincode
+								FROM public.village v
+								inner join panchayath p on p.id=v.panchayath
+								inner join mandal m on p.mandal=m.id
+								inner join district d on d.id=m.district
+								where d.id =:id ]]>
+					</value>
+				</entry>
+
+
+				<entry key="district_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.district WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="mandal_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.mandal WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="mandal_find_by_district">
+					<value> 
+					<![CDATA[ SELECT m.name as mandal_name FROM public.mandal m WHERE district IN (:district) ]]>
+					</value>
+				</entry>
+				<entry key="mandal_update">
+					<value> 
+				<![CDATA[ UPDATE public.mandal SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="mandal_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.mandal WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="mandal_find_all_districts_state">
+					<value> 
+					<![CDATA[ SELECT m.name as mandal_name,m.id as mandal_id,d.name as district_name,d.id district_id,s.name as state_name,s.id as state_id
+								FROM public.mandal m 
+								inner join district d on d.id=m.district 
+								inner join state s on s.id=d.state
+								WHERE m.id= :id ]]>
+					</value>
+				</entry>
+				<entry key="panchayath_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.panchayath WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="panchayath_update">
+					<value> 
+				<![CDATA[ UPDATE public.panchayath SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="panchayath_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.panchayath WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villageClassification_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village_classification WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villageClassification_update">
+					<value> 
+				<![CDATA[ UPDATE public.village_classification SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villageClassification_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village_classification WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="village_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="village_update">
+					<value> 
+				<![CDATA[ UPDATE public.village SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser,
+						no_of_households = :noOfHouseholds, route = :route, pincode = :pincode WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="village_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_update">
+					<value> 
+				<![CDATA[ UPDATE public.branch SET name = :name, mandal= :mandal, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branchVillages_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch_villages WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branchVillages_update">
+					<value> 
+				<![CDATA[ UPDATE public.branch_villages SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branchVillages_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch_villages WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="questionOption_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.question_option WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="questionOption_update">
+					<value> 
+				<![CDATA[ UPDATE public.question_option SET option = :option, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="questionOption_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.question_option WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="options_for_questions">
+					<value> 
+					<![CDATA[ SELECT * FROM public.question_option WHERE active = 1 AND question= :question]]>
+					</value>
+				</entry>
+				<entry key="surveyResponse_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.survey_response WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="surveyResponse_update">
+					<value> 
+				<![CDATA[ UPDATE public.survey_response SET modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="surveyResponse_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.survey_response WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="updateQuestions">
+					<value> 
+					<![CDATA[ UPDATE public.question SET question= :question, type= :type, created_on= :createdOn, created_user= :createdUser, modified_user= :modifiedUser, modified_on= :modifiedOn, active= :active  WHERE id= :id; ]]>
+					</value>
+				</entry>
+				<entry key="getQuestion">
+					<value> 
+					<![CDATA[ SELECT * FROM public.question; ]]>
+					</value>
+				</entry>
+				<entry key="question_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.question WHERE id= :id; ]]>
+					</value>
+				</entry>
+				<entry key="updateSurveyQuestions">
+					<value> 
+					<![CDATA[ UPDATE public.survey_question SET question= :question, survey= :survey, section_number= :sectionNumber, order_number= :orderNumber, created_on= :createdOn, created_user= :createdUser, modified_user= :modifiedUser, modified_on= :modifiedOn, active= :active  WHERE id= :id; ]]>
+					</value>
+				</entry>
+				<entry key="getSurveyQuestions">
+					<value> 
+					<![CDATA[ SELECT * FROM public.survey_question; ]]>
+					</value>
+				</entry>
+				<entry key="findSurveyQuestionById">
+					<value> 
+					<![CDATA[ SELECT * FROM public.survey_question WHERE id= :id; ]]>
+					</value>
+				</entry>
+				<entry key="role_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.role WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="role_update">
+					<value> 
+				<![CDATA[ UPDATE public.role SET name = :name, is_default = :isDefault, is_system = :isSystem, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="role_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.role WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="permission_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.permission WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="permission_update">
+					<value> 
+				<![CDATA[ UPDATE public.permission SET name = :name , display_name = :displayName, type = :type, tab_name = :tabName, grouping_name = :groupingName,
+							label_name = :labelName, level_id = :levelId, sort_order = :sortOrder, modified_on = :modifiedOn, modified_user = :modifiedUser
+							WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="permission_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.permission WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="role_permission_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.role_permission WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="role_permission_update">
+					<value> 
+				<![CDATA[ UPDATE public.role_permission SET role_id = :roleID, permission_id = :permissionId, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1]]>
+					</value>
+				</entry>
+				<entry key="role_permission_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.role_permission WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_operational_blocks_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch_operational_blocks WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+
+				<entry key="branch_find_all_districts_branch">
+					<value> 
+					<![CDATA[SELECT b.name as branch_name,b.id as branch_id, m.name as mandal_name,
+							m.id as mandal_id,d.name as district_name,d.id district_id,s.name as state_name,s.id as state_id
+							FROM public.branch b
+							inner join mandal m on b.mandal=m.id
+							inner join district d on m.district=d.id
+							inner join state s on s.id=d.state
+							WHERE b.id= :id;
+
+					]]>
+					</value>
+				</entry>
+
+				<entry key="branch_operational_blocks_update">
+					<value> 
+				<![CDATA[ UPDATE public.branch_operational_blocks SET branch_id = :branchId,block_id=:blockId, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_operational_blocks_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch_operational_blocks WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="branch_operational_blocks_details">
+					<value> 
+				<![CDATA[ SELECT b.name as branch_name,b.id as branch_id ,m.name as mandal_name,m.id as mandal_id,d.name as district_name,
+								d.id district_id,s.name as state_name,s.id as state_id
+								FROM public.branch_operational_blocks bo
+								inner join branch b on bo.branch_id=b.id
+								inner join mandal m on bo.block_id=m.id
+								inner join district d on d.id=m.district
+								inner join state s on s.id=d.state
+								WHERE bo.branch_id=:id; ]]>
+					</value>
+				</entry>
+				<entry key="branch_find_by_name">
+					<value> 
+					<![CDATA[ SELECT * FROM public.branch WHERE name ilike ]]>
+					</value>
+				</entry>
+				<entry key="financialInstitutions_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.financial_institutions WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="financialInstitutions_update">
+					<value> 
+				<![CDATA[ UPDATE public.financial_institutions SET  name= :name, type= :type, contact_person = :contactPerson, mobile_number = :mobileNumber, address = :address , operating_since = :operatingSince , modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1]]>
+					</value>
+				</entry>
+				<entry key="financialInstitutions_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.financial_institutions WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villagePhotos_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village_photos WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villagePhotos_update">
+					<value> 
+				<![CDATA[ UPDATE public.village_photos SET name = :name, village= :village, survey= :survey, s3_url= :s3Url, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="villagePhotos_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.village_photos WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="survey_find_by_id">
+					<value>
+					<![CDATA[ SELECT * FROM public.survey WHERE id = :id AND active = 1]]>
+					</value>
+				</entry>
+				<entry key="survey_update">
+					<value>
+					<![CDATA[ UPDATE public.survey SET name = :name, village = :village,status = :status,modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="survey_find_all">
+					<value>
+					<![CDATA[ SELECT * FROM public.survey WHERE active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="operationalDetails_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.operational_details WHERE id = :id ]]>
+					</value>
+				</entry>
+				<entry key="operationalDetails_update">
+					<value> 
+				<![CDATA[ UPDATE public.operational_details SET  client_detail = :clientDetail, pos= :pos, par = :par, amt_par = :amtPar WHERE id = :id]]>
+					</value>
+				</entry>
+				<entry key="operationalDetails_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.operational_details ]]>
+					</value>
+				</entry>
+
+				<entry key="activity_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.activity WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="activity_update">
+					<value> 
+				<![CDATA[ UPDATE public.activity SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="activity_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.activity]]>
+					</value>
+				</entry>
+				<entry key="negativeareas_find_by_id">
+					<value> 
+					<![CDATA[ SELECT * FROM public.negative_areas WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="negativeareas_update">
+					<value> 
+				<![CDATA[ UPDATE public.negative_areas SET name = :name, modified_on = :modifiedOn, modified_user = :modifiedUser WHERE id = :id AND active = 1 ]]>
+					</value>
+				</entry>
+				<entry key="negativeareas_find_all">
+					<value> 
+					<![CDATA[ SELECT * FROM public.negative_areas WHERE active = 1 ]]>
+					</value>
+				</entry>
+
+				<entry key="villageName_find_by_branch_id">
+					<value> 
+					<![CDATA[ select v.name as village_name from village v inner join panchayath p on p.id=v.panchayath 
+  							  inner join mandal m on m.id=p.mandal 
+ 							  inner join branch b on b.mandal=m.id
+  							  where b.id =:id]]>
+					</value>
+				</entry>
+
+				<entry key="village_hierarchy_by_id">
+					<value> 
+					<![CDATA[ select d.name as district_name,m.name as mandal_name,v.pincode as village_pincode 
+								from village v 
+								inner join panchayath p on p.id=v.panchayath 
+								inner join mandal m on m.id=p.mandal 
+								inner join district d on d.id=m.district
+ 								where v.id=:id; ]]>
+					</value>
+				</entry>
+
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

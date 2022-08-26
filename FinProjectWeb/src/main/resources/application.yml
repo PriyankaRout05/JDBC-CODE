@@ -1,0 +1,35 @@
+server:
+   port: 8090
+spring:  
+    application:
+      name: village-survey-authorization
+    flyway:
+      enabled: true
+    datasource:
+      url: jdbc:postgresql://localhost:5432/finprojectweb
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+    jpa:
+      hibernate:
+        ddl-auto: update
+    servlet:
+      multipart:
+        enabled: 'true'
+        max-request-size: 215MB
+        file-size-threshold: 2KB
+        max-file-size: 200KB
+        
+      
+zuul:
+   sensitiveHeaders: Cookie,Set-Cookie
+   routes:
+      village-survey-tracker:
+         path: /api/tracker/**
+         url: http://localhost:8092/api/tracker
+      village-survey-administration:
+         path: /api/administration/**
+         url: http://localhost:8091/api/administration
+ 
+app:
+  secret: survey     
